@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Form</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .error-message {
+      color: red;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    body {
+      background-image:url("w.jpg");
+      background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+    }
+    .container {
+      position: relative;
+      color: rgb(0, 0, 0);
+      background: rgba(255, 255, 255, 0.566);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      background-color: #dbcfdf;
+background-image: linear-gradient(180deg, #dbcfdf 0%, #ffdbdf 100%);
+
+
+
+      border-radius: 20px;
+    }
+    .btn {
+      background-color: rgb(3, 157, 240);
+      color: white;
+    }
+    .ti {
+      color: rgb(25, 25, 25);
+      font-family: "century gothic";
+    }
+  </style>
+</head>
+<body>
+   
+  <div class="container p-4 w-50 mt-5 mb-5 ">
+    <div class="row justify-content-center">
+      <div class="col-md-9">
+        <h1 class="text-center ti">User Form</h1>
+        <form action="connect.php" id="userForm"method="post">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" required>
+              <span class="error-message" id="firstNameError"></span>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" required>
+              <span class="error-message" id="lastNameError"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phoneNo">Phone No</label>
+            <input type="text" class="form-control" id="phoneNo" name="phoneNo" required>
+            <span class="error-message" id="phoneNoError"></span>
+          </div>
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+              <label class="form-check-label" for="male">Male</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gender" id="female" value="female" required>
+              <label class="form-check-label" for="female">Female</label>
+            </div>
+            <span class="error-message" id="genderError"></span>
+          </div>
+          <div class="form-group">
+            <label for="maritalStatus">Marital Status</label>
+            <select class="form-control" id="maritalStatus" name="maritalStatus" required>
+              <option value="" selected disabled>Select</option>
+              <option value="single">Single</option>
+              <option value="married">Married</option>
+            </select>
+            <span class="error-message" id="maritalStatusError"></span>
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+            <span class="error-message" id="addressError"></span>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#userForm').on('submit', function(e) {
+        e.preventDefault(); // Prevent form submission
+
+        // Clear previous error messages
+        $('.error-message').text('');
+
+        // Get form field values
+        var firstName = $('#firstName').val();
+        var lastName = $('#lastName').val();
+        var phoneNo = $('#phoneNo').val();
+        var gender = $('input[name="gender"]:checked').val();
+        var maritalStatus = $('#maritalStatus').val();
+        var address = $('#address').val();
+
+        // Perform form field validation
+        var isValid = true;
+
+        if (firstName.length <= 3) {
+          $('#firstNameError').text('First name must be greater than 3 characters.');
+          isValid = false;
+        }
+
+        if (lastName.length <= 3 || !/^[a-zA-Z]+$/.test(lastName)) {
+          $('#lastNameError').text('Last name must be greater than 3 characters and contain only alphabets.');
+          isValid = false;
+        }
+
+        if (phoneNo.length <= 3 || !/^\d+$/.test(phoneNo)) {
+          $('#phoneNoError').text('Phone number must be greater than 3 digits and contain only numbers.');
+          isValid = false;
+        }
+
+        if (!$('input[name="gender"]:checked').length) {
+          $('#genderError').text('Please select a gender.');
+          isValid = false;
+        }
+
+        if (maritalStatus === '') {
+          $('#maritalStatusError').text('Please select a marital status.');
+          isValid = false;
+        }
+
+        if (address.length < 20 || address.length > 150 || /[^a-zA-Z0-9\s]/.test(address)) {
+          $('#addressError').text('Address must be between 20 and 150 characters and contain only letters, numbers, and spaces.');
+          isValid = false;
+        }
+
+        // If all fields are valid, submit the form
+        if (isValid) {
+          this.submit();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
